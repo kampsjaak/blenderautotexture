@@ -13,7 +13,7 @@ def GetFaces():
                 ratio = longEdge / shortEdge
                 tiles = poly.area / tile
                 facing = GetFacing(poly.normal)
-                print(facing)
+                print("facing {}, local space {}".format(facing, poly.center))
                 print("long {:.2f}, short {:.2f}".format(longEdge, shortEdge))
                 print("area {:.2f}, tiles {:.2f}, ratio {:.2f}".format(poly.area, ratio, tiles))
 
