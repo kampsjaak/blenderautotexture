@@ -1,4 +1,11 @@
 import bpy, math
+import mathutils
+
+def RotateCamera(area_index):
+    rv3d = bpy.context.screen.areas[area_index].spaces[0].region_3d
+    rv3d.view_rotation.rotate(mathutils.Euler((0, 0, 0.1)))
+    rv3d.view_location.x += 1.0
+    rv3d.view_distance -= 1.0
 
 def GetFaces():
     for obj in bpy.data.objects:
@@ -84,3 +91,4 @@ def Distance(p, q):
     return distance
 
 GetFaces()
+RotateCamera(5)
