@@ -3,9 +3,25 @@ import mathutils
 
 def RotateCamera(area_index):
     rv3d = bpy.context.screen.areas[area_index].spaces[0].region_3d
-    rv3d.view_rotation.rotate(mathutils.Euler((0, 0, 0.1)))
-    rv3d.view_location.x += 1.0
-    rv3d.view_distance -= 1.0
+    #rv3d.view_rotation.rotate(mathutils.Euler((0, 0, 0.1)))
+    rv3d.view_rotation = mathutils.Euler((3.14157, 0, 0)).to_quaternion()
+    #rv3d.view_location.x += 1.0
+    #rv3d.view_distance -= 1.0
+    
+def SetCameraAngle(area_index, vector):
+    rv3d = bpy.context.screen.areas[area_index].spaces[0].region_3d
+    
+    print("vector {} , {} , {}".format(vector[0], vector[1], vector[2]))
+    
+    pitch = vector[0] * -math.pi
+    yaw = vector[1] * math.pi
+    roll = vector[2] * math.pi
+    
+    print("euler {} , {} , {}".format(pitch, yaw, roll))
+    euler = mathutils.Euler((pitch, yaw, roll))
+    #print("{} , {} , {}".format(euler.x * 57.2957, euler.y * 57.2957, euler.z * 57.2957))
+    
+    rv3d.view_rotation = euler.to_quaternion()
 
 def GetFaces():
     for obj in bpy.data.objects:
@@ -23,6 +39,7 @@ def GetFaces():
                 print("facing {}, local space {}".format(facing, poly.center))
                 print("long {:.2f}, short {:.2f}".format(longEdge, shortEdge))
                 print("area {:.2f}, tiles {:.2f}, ratio {:.2f}".format(poly.area, ratio, tiles))
+                SetCameraAngle(5, poly.normal)
 
 def GetFacing(vec3):
     if (abs(vec3.x) > abs(vec3.y) and abs(vec3.x) > abs(vec3.z)):
@@ -91,4 +108,4 @@ def Distance(p, q):
     return distance
 
 GetFaces()
-RotateCamera(5)
+#RotateCamera(5)
